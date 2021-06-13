@@ -6,6 +6,7 @@ import com.spring.product.review.repository.ProductReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -47,8 +48,7 @@ public class ProductReviewService {
         else
         {
             //product not valid
-            //todo: throw proper exception
-            throw new Exception("Item Not found");
+            throw new EntityNotFoundException("Item Not found");
         }
         return productReview;
     }

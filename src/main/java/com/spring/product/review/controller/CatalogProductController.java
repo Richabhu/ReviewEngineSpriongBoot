@@ -4,15 +4,19 @@ import com.spring.product.review.models.CatalogProduct;
 import com.spring.product.review.responses.CatalogProductResponse;
 import com.spring.product.review.responses.common.StatusCode;
 import com.spring.product.review.responses.common.StatusResponse;
+import com.spring.product.review.responses.common.enumeration.ErrorCodes;
 import com.spring.product.review.responses.common.enumeration.StatusType;
 import com.spring.product.review.responses.common.enumeration.SuccessCodes;
 import com.spring.product.review.services.CatalogProductService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.Collections;
 
 
+@Slf4j
 @RestController
 @RequestMapping("/api/v1/product/")
 public class CatalogProductController {
@@ -50,24 +54,16 @@ public class CatalogProductController {
 
         CatalogProductResponse response = this.createResponse(null);
 
-        CatalogProduct result = catalogProductService.getProductById(id);
-        if(result !=null) {
+        try {
+            CatalogProduct result = catalogProductService.getProductById(id);
             response = this.createResponse(result);
             response.setStatus(new StatusResponse(SuccessCodes.OK, 1));
-            return response;
+        } catch (EntityNotFoundException dataNotFound) {
+            log.error("Error occurred: {}", dataNotFound.getMessage());
+            response.setStatus(new StatusResponse(ErrorCodes.NOT_FOUND, 0));
+
+
         }
-        response.setStatus(new StatusResponse(new StatusCode() {
-            @Override
-            public Integer getCode() {
-                return 400;
-            }
-
-            @Override
-            public String getMessage() {
-                return "Item not found";
-            }
-        }, StatusType.ERROR, 0));
         return response;
-
     }
 }
