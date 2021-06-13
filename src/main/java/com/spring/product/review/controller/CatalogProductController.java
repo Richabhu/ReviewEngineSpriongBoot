@@ -54,16 +54,11 @@ public class CatalogProductController {
 
         CatalogProductResponse response = this.createResponse(null);
 
-        try {
+
             CatalogProduct result = catalogProductService.getProductById(id);
             response = this.createResponse(result);
             response.setStatus(new StatusResponse(SuccessCodes.OK, 1));
-        } catch (EntityNotFoundException dataNotFound) {
-            log.error("Error occurred: {}", dataNotFound.getMessage());
-            response.setStatus(new StatusResponse(ErrorCodes.NOT_FOUND, 0));
 
-
-        }
         return response;
     }
 }

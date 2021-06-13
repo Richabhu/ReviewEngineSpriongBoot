@@ -1,5 +1,6 @@
 package com.spring.product.review.services;
 
+import com.spring.product.review.exceptions.CatalogProductNotFoundException;
 import com.spring.product.review.models.CatalogProduct;
 import com.spring.product.review.repository.CatalogProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,7 @@ public class CatalogProductService {
             CatalogProduct catalogProduct = product.get();
             return  catalogProduct;
         }
-        throw new EntityNotFoundException("Item not found");
+        throw new CatalogProductNotFoundException();
     }
 
     public CatalogProduct update(CatalogProduct catalogProduct)

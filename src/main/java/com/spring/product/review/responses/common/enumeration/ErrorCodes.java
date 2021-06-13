@@ -5,7 +5,9 @@ import com.spring.product.review.responses.common.StatusCode;
 public enum ErrorCodes implements StatusCode {
     GENERIC_ERROR_OCCURRED(101, "Error Occurred!"),
     NOT_FOUND(102, "Data not found"),
-    BAD_REQUEST(400, "Internal Server Error");
+    BAD_REQUEST(400, "Internal Server Error"),
+    ITEM_NOT_FOUND(400, "Item not found!"),
+    REVIEW_SCORE_VALIDATION(400, "Review Score should be between 1 to 5.");
 
     Integer code;
     String message;
